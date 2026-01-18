@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Technobabble Generator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no, maximum-scale=1.0">
 	<style>
         body {
             font-family: monospace;
@@ -19,17 +19,41 @@
             font-size: 15pt;
         }
 
-        @media only screen and (max-width: 600px) {
-            body {
+        @media only screen and (min_width:320px) {
+            .container {
+                display: flex;
+                align-items:center;
+                justify-content: center;
+                flex-direction:column;
+            }
+
+            html, body, .container {
+                height: 100%;
+                margin: 0;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+                background-color: #174287;
+                color: #f5f5f5;
+                padding: .8rem;
+                margin: 0;
                 text-align: center;
             }
-        }
+
+            #output {
+                text-align: center;
+            }
+        } 
 
     </style>
 </head>
 <body>
-	<p id="output">Loading...</p>
-	<button id="myButton">More Technobabble!</button>
+	<h1>Technobabble Generator</h1>
+    <div class="container">
+        <p id="output">Loading...</p>
+        <button id="myButton">More Technobabble!</button>
+    </div>
 	
 	<script>
 		"use strict";
