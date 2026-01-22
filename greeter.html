@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            height: 50px;
+            width: 150px;
+        }
+
+        @media only screen and (min-width: 1024px) {
+            body {
+                background-color: red;
+                padding: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="helloButton">Say Hello!</button>
+    <button id="goodbyeButton">Say Goodbye :(</button>
+    <input id="firstName" type="text">
+    <input id="lastName" type="text">
+    <p id="output">Loading...</p>
+    
+    <script>
+        const firstName = document.querySelector('#firstName');
+        const lastName = document.querySelector('#lastName');
+        const helloButton = document.querySelector('#helloButton');
+        const goodbyeButton = document.querySelector('#goodbyeButton');
+
+        function sayHello() {
+            const firstNameVal = firstName.value;
+            const lastNameVal = lastName.value || "Parker";
+            document.querySelector('#output').innerHTML = `Hello ${firstNameVal} ${lastNameVal}!`;
+            console.log(`Hello ${firstNameVal} ${lastNameVal}!`);
+        }
+
+        function sayBye() {
+            const firstNameVal = firstName.value;
+            const lastNameVal = lastName.value || "Parker";
+            document.querySelector('#output').innerHTML = `Goodbye ${firstNameVal} ${lastNameVal}!`;
+            console.log (`Goodbye ${firstNameVal} ${lastNameVal}!`);
+        }
+
+        helloButton.onclick = sayHello;
+        goodbyeButton.onclick = sayBye;
+    </script>
+</body>
+</html>
