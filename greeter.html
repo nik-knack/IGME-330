@@ -10,6 +10,12 @@
             width: 150px;
         }
 
+
+        #output {
+            font-size: 30pt;
+            color: yellow;
+        }
+
         @media only screen and (min-width: 1024px) {
             body {
                 background-color: red;
@@ -32,14 +38,14 @@
         const goodbyeButton = document.querySelector('#goodbyeButton');
 
         function sayHello() {
-            const firstNameVal = firstName.value;
+            const firstNameVal = firstName.value || "Peter";
             const lastNameVal = lastName.value || "Parker";
             document.querySelector('#output').innerHTML = `Hello ${firstNameVal} ${lastNameVal}!`;
             console.log(`Hello ${firstNameVal} ${lastNameVal}!`);
         }
 
         function sayBye() {
-            const firstNameVal = firstName.value;
+            const firstNameVal = firstName.value || "Peter";
             const lastNameVal = lastName.value || "Parker";
             document.querySelector('#output').innerHTML = `Goodbye ${firstNameVal} ${lastNameVal}!`;
             console.log (`Goodbye ${firstNameVal} ${lastNameVal}!`);
