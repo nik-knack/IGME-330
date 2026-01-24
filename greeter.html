@@ -3,19 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Greeter</title>
     <style>
         button {
             height: 50px;
             width: 150px;
-        }
 
+            font-size: 12pt;
+        }
 
         #output {
+            background-color: yellow;
+            color: red;
+            
             font-size: 30pt;
-            color: yellow;
         }
 
+        input {
+            height: 50px;
+
+            font-size: 2rem;
+        }
         @media only screen and (min-width: 1024px) {
             body {
                 background-color: red;
@@ -25,30 +33,32 @@
     </style>
 </head>
 <body>
-    <button id="helloButton">Say Hello!</button>
-    <button id="goodbyeButton">Say Goodbye :(</button>
-    <input id="firstName" type="text">
-    <input id="lastName" type="text">
+    <button id="btn-hello">Say Hello!</button>
+    <button id="btn-goodbye">Say Goodbye :(</button>
+    <hr>
+    <input id="first-name" type="text">
+    <input id="last-name" type="text">
     <p id="output">Loading...</p>
     
     <script>
-        const firstName = document.querySelector('#firstName');
-        const lastName = document.querySelector('#lastName');
-        const helloButton = document.querySelector('#helloButton');
-        const goodbyeButton = document.querySelector('#goodbyeButton');
+        const firstName = document.querySelector('#first-name');
+        const lastName = document.querySelector('#last-name');
+        const helloButton = document.querySelector('#btn-hello');
+        const goodbyeButton = document.querySelector('#btn-goodbye');
 
-        function sayHello() {
+        //windows.onload = greet(gretting) => {};  
+            
+
+        const sayHello = () => {
             const firstNameVal = firstName.value || "Peter";
             const lastNameVal = lastName.value || "Parker";
             document.querySelector('#output').innerHTML = `Hello ${firstNameVal} ${lastNameVal}!`;
-            console.log(`Hello ${firstNameVal} ${lastNameVal}!`);
         }
 
-        function sayBye() {
+        const sayBye = () => {
             const firstNameVal = firstName.value || "Peter";
             const lastNameVal = lastName.value || "Parker";
             document.querySelector('#output').innerHTML = `Goodbye ${firstNameVal} ${lastNameVal}!`;
-            console.log (`Goodbye ${firstNameVal} ${lastNameVal}!`);
         }
 
         helloButton.onclick = sayHello;
