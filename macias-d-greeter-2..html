@@ -33,6 +33,29 @@
             }
         }
     </style>
+    <script>
+        window.onload = function () {
+            const firstName = document.querySelector('#first-name');
+            const lastName = document.querySelector('#last-name');
+            const helloButton = document.querySelector('#btn-hello');
+            const goodbyeButton = document.querySelector('#btn-goodbye');
+            const output = document.querySelector('#output');
+        
+            const greet = (gretting) => {
+                const firstNameVal = firstName.value.trim() || "Peter";
+                const lastNameVal = lastName.value.trim() || "Parker";
+                output.innerHTML = `${gretting} ${firstNameVal} ${lastNameVal}!`;
+            }
+
+            output.style.color = "red";
+            output.style.backgroundColor = "yellow";
+    
+            helloButton.onclick = () => greet("Hello");
+            goodbyeButton.onclick = () => greet("Goodbye");
+        }
+        
+    </script>
+    </body>
 </head>
 <body>
     <button id="btn-hello">Say Hello!</button>
@@ -42,33 +65,4 @@
     <input id="last-name" type="text">
     <p id="output">Loading...</p>
     
-    <script>
-        const firstName = document.querySelector('#first-name');
-        const lastName = document.querySelector('#last-name');
-        const helloButton = document.querySelector('#btn-hello');
-        const goodbyeButton = document.querySelector('#btn-goodbye');
-
-        output.style.color = "red";
-        output.style.backgroundColor = "yellow";
-
-
-        //windows.onload = greet(gretting) => {};  
-            
-
-        const sayHello = () => {
-            const firstNameVal = firstName.value.trim() || "Peter";
-            const lastNameVal = lastName.value.trim() || "Parker";
-            document.querySelector('#output').innerHTML = `Hello ${firstNameVal} ${lastNameVal}!`;
-        }
-
-        const sayGoodbye = () => {
-            const firstNameVal = firstName.value.trim() || "Peter";
-            const lastNameVal = lastName.value.trim() || "Parker";
-            document.querySelector('#output').innerHTML = `Goodbye ${firstNameVal} ${lastNameVal}!`;
-        }
-
-        helloButton.onclick = sayHello;
-        goodbyeButton.onclick = sayGoodbye;
-    </script>
-</body>
 </html>
