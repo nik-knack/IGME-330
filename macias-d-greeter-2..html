@@ -26,6 +26,19 @@
 
             font-size: 2rem;
         }
+
+        #btn-container {
+            display: flex;
+            flex-direction: row;
+
+            gap: 20px;
+        }
+
+        #chk-container {
+            display: flex;
+            align-items: center;
+        }
+
         @media only screen and (min-width: 1024px) {
             body {
                 background-color: red;
@@ -34,6 +47,8 @@
         }
     </style>
     <script> 
+        window.onload = () => init();  
+
         const init = () => {
             const firstName = document.querySelector('#first-name');
             const lastName = document.querySelector('#last-name');
@@ -61,28 +76,26 @@
                 output.innerHTML = message;
             }
             
-            helloButton.onclick = () => greet("Hello");
-            goodbyeButton.onclick = () => greet("Goodbye");
-            
             output.style.color = "red";
             output.style.backgroundColor = "yellow";    
-        }
-
-        window.onload = () => init();
-        
-        </script>
-    </body>
+            
+            helloButton.onclick = () => greet("Hello");
+            goodbyeButton.onclick = () => greet("Goodbye");    
+        }       
+    </script>
 </head>
 <body>
-    <button id="btn-hello">Say Hello!</button>
-    <button id="btn-goodbye">Say Goodbye :(</button>
-    <div>
-        <input id="chk-shout" type="checkbox"/>
-        <label>Shoutify!</label>
+    <div id="btn-container">
+        <button id="btn-hello">Say Hello!</button>
+        <button id="btn-goodbye">Say Goodbye :(</button>
+        <div id="chk-container">
+            <input id="chk-shout" type="checkbox"/>
+            <label>Shoutify!</label>
+        </div>
     </div>
     <hr>
     <input id="first-name" type="text">
     <input id="last-name" type="text">
     <p id="output">Loading...</p>
-    
+</body>    
 </html>
