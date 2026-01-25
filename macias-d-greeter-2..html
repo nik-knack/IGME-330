@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greeter</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sour+Gummy&display=swap');
+
+        p, input {
+            font-family: 'Sour Gummy';
+        }
         button {
             height: 50px;
             width: 150px;
 
-            font-size: 12pt;
+            font-size: 14pt;
         }
 
         #output {
-            background-color: yellow;
-            color: red;
-            
             font-size: 30pt;
         }
 
@@ -46,23 +48,27 @@
         const helloButton = document.querySelector('#btn-hello');
         const goodbyeButton = document.querySelector('#btn-goodbye');
 
+        output.style.color = "red";
+        output.style.backgroundColor = "yellow";
+
+
         //windows.onload = greet(gretting) => {};  
             
 
         const sayHello = () => {
-            const firstNameVal = firstName.value || "Peter";
-            const lastNameVal = lastName.value || "Parker";
+            const firstNameVal = firstName.value.trim() || "Peter";
+            const lastNameVal = lastName.value.trim() || "Parker";
             document.querySelector('#output').innerHTML = `Hello ${firstNameVal} ${lastNameVal}!`;
         }
 
-        const sayBye = () => {
-            const firstNameVal = firstName.value || "Peter";
-            const lastNameVal = lastName.value || "Parker";
+        const sayGoodbye = () => {
+            const firstNameVal = firstName.value.trim() || "Peter";
+            const lastNameVal = lastName.value.trim() || "Parker";
             document.querySelector('#output').innerHTML = `Goodbye ${firstNameVal} ${lastNameVal}!`;
         }
 
         helloButton.onclick = sayHello;
-        goodbyeButton.onclick = sayBye;
+        goodbyeButton.onclick = sayGoodbye;
     </script>
 </body>
 </html>
