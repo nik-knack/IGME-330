@@ -7,7 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sour+Gummy&display=swap');
 
-        p, input {
+        p, input, label, button {
             font-family: 'Sour Gummy';
         }
         button {
@@ -33,39 +33,53 @@
             }
         }
     </style>
-    <script>
-        window.onload = function () {
+    <script> 
+        const init = () => {
             const firstName = document.querySelector('#first-name');
             const lastName = document.querySelector('#last-name');
             const helloButton = document.querySelector('#btn-hello');
             const goodbyeButton = document.querySelector('#btn-goodbye');
             const output = document.querySelector('#output');
-        
+            const shoutCheckbox = document.querySelector("#chk-shout");
+            
             const capitalizeFirst = (str) => {
                 str = str.trim();
                 if (str === "") return str;
                 return str.charAt(0).toUpperCase() + str.slice(1);
             }
-
+            
             const greet = (greeting) => {
                 const firstNameVal = capitalizeFirst(firstName.value) || "Peter";
                 const lastNameVal = capitalizeFirst(lastName.value) || "Parker";
-                output.innerHTML = `${greeting} ${firstNameVal} ${lastNameVal}!`;
+                
+                let message = `${greeting} ${firstNameVal} ${lastNameVal}!`;
+                
+                if (shoutCheckbox.checked) {
+                    message = message.toUpperCase();
+                }
+                
+                output.innerHTML = message;
             }
-
+            
             helloButton.onclick = () => greet("Hello");
             goodbyeButton.onclick = () => greet("Goodbye");
             
             output.style.color = "red";
-            output.style.backgroundColor = "yellow";
+            output.style.backgroundColor = "yellow";    
         }
+
+        window.onload = () => init();
         
-    </script>
+        </script>
     </body>
 </head>
 <body>
     <button id="btn-hello">Say Hello!</button>
     <button id="btn-goodbye">Say Goodbye :(</button>
+    <div>
+        <input id="chk-shout" type="checkbox"/>
+        <label>Shoutify!</label>
+    </div>
     <hr>
     <input id="first-name" type="text">
     <input id="last-name" type="text">
