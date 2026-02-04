@@ -7,7 +7,22 @@
 </head>
 <body>
     <script>
-        
+        const url = 'https://dog.ceo/api/breeds/image/random';
+
+        console.log('before fetch');
+        fetch(url)
+            .then(response => {
+                return response.json();   
+            })
+            .then(result => {
+                console.log(result);
+                const dogImgURL = result.message;
+                
+                const img = document.querySelector('img');
+                img.src = dogImgURL;
+            })
+
+        console.log('after fetch');
     </script>
 </body>
 </html>
