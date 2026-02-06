@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<title>Fetch - Load CSV</title>
+	<title>Fetch - Load JSON</title>
 	<style>
 	body{
 	  font-family: sans-serif;
@@ -11,8 +11,8 @@
 	</style>
 </head>
 <body>
-	<h2>Fetch - Load CSV File</h2>
-	<p>The <code>pet-names.csv</code> file contains popular dog and cat pet names on separate lines, separated by commas.</p>
+	<h2>Fetch - Load JSON File</h2>
+	<p>The <code>pet-names.json</code> file contains popular dog, cat, bird pet names on separate lines, separated by commas.</p>
 	<p>Note that because fetch is loading a local file, this example will have to be run off a web server rather than from your computer's hard drive (e.g. banjo.rit.edu or VSCode's liveserver etc)</p>
 	
 	<hr>
@@ -20,30 +20,27 @@
 	<p id="output">Click button to load</p>
 	
 <script>
-const loadCSVFile = () => {
-  fetch('./data/pet-names.csv')
+const loadJSONFile = () => {
+  fetch('./data/pet-names.json')
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.text()
+      return response.json(); // Changed from response.text()!
     })
-    .then(text => {
-      console.log('Success:', text);
+    .then(data => {
+      console.log('Success:', data);
       
-      // Split new lines into rows
-      const rows = text.trim().split('\n');
-      console.log('After splitting by newlines (rows):');
-      console.log(rows);
+      // Deconstruct JSON object to create a dog, cat, and bird variable
+      const {
+        categories: { dogs, cats, birds }
+      } = data;
 
-      // Split each row by commas
-      const dogNames = rows[0].split(',');
-      const catNames = rows[1].split(',');
+      console.log(dogs);
+      console.log(cats);
+      console.log(birds);
 
-      console.log('Dog names:', dogNames);
-      console.log('Cat names:', catNames);
-
-      // Create HTML for dog and cat names
+      // Create HTML for dog, cat, and bird names
       function createList(title, items) {
         return `
           <h3>${title}</h3>
@@ -54,9 +51,10 @@ const loadCSVFile = () => {
       }
 
       let html = '';
-      html += createList('Dog Names', dogNames);
-      html += createList('Cat Names', catNames);
-
+      html += createList('Dog Names', dogs);
+      html += createList('Cat Names', cats);
+      html += createList('Bird Names', birds);
+      
       // Display the HTML on the page
       document.querySelector('#output').innerHTML = html;
     })
@@ -66,7 +64,7 @@ const loadCSVFile = () => {
     });
 };
 
-document.querySelector('#my-button').addEventListener('click', loadCSVFile);
+document.querySelector('#my-button').addEventListener('click', loadJSONFile);
 </script>
 </body>
 </html>
