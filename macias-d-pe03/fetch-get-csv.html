@@ -31,8 +31,36 @@ const loadCSVFile = () => {
     .then(text => {
       console.log('Success:', text);
       
-      // TODO: You implement the parsing and display code here!
-      // See step-by-step instructions below
+      // Split new lines into rows
+      const rows = text.trim().split('\n');
+      console.log('After splitting by newlines (rows):');
+      console.log(rows);
+
+      // Split each row by commas
+      const dogNames = rows[0].split(',');
+      const catNames = rows[1].split(',');
+
+      console.log('Dog names:', dogNames);
+      console.log('Cat names:', catNames);
+
+      // Create HTML for dog names
+      const dogHTML = `
+        <h3>Dog Names</h3>
+        <ol>
+          ${dogNames.map(name => `<li>${name}</li>`).join('')}
+        </ol>
+      `;
+
+      // Create HTML for cat names
+      const catHTML = `
+        <h3>Cat Names</h3>
+        <ol>
+          ${catNames.map(name => `<li>${name}</li>`).join('')}
+        </ol>
+      `;
+
+      // Display the HTML on the page
+      document.querySelector('#output').innerHTML = dogHTML + catHTML;
     })
     .catch(error => {
       console.error('Error:', error);
