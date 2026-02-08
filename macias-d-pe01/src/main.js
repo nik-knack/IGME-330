@@ -1,15 +1,36 @@
-import { randomElement } from "./utils";
+import { randomElement } from "./utils.js";
 
-const words1 = ["Acute", "Aft", "Anti-matter", "Bipolar", "Cargo", "Command", "Communication", "Computer", "Deuterium", "Dorsal", "Emergency", "Engineering", "Environmental", "Flight", "Fore", "Guidance", "Heat", "Impulse", "Increased", "Inertial", "Infinite", "Ionizing", "Isolinear", "Lateral", "Linear", "Matter", "Medical", "Navigational", "Optical", "Optimal", "Optional", "Personal", "Personnel", "Phased", "Reduced", "Science", "Ship's", "Shuttlecraft", "Structural", "Subspace", "Transporter", "Ventral"];
+let words1 = [];
+let words2 = [];
+let words3 = [];
 
-const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer", "Graviton", "Replicator", "Matter", "Anti-matter", "Organic", "Power", "Silicon", "Holographic", "Transient", "Integrity", "Plasma", "Fusion", "Control", "Access", "Auto", "Destruct", "Isolinear", "Transwarp", "Energy", "Medical", "Environmental", "Coil", "Impulse", "Warp", "Phaser", "Operating", "Photon", "Deflector", "Integrity", "Control", "Bridge", "Dampening", "Display", "Beam", "Quantum", "Baseline", "Input"];
-
-const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platform", "Thruster", "Deflector", "Replicator", "Tricorder", "Operation", "Array", "Matrix", "Grid", "Sensor", "Mode", "Panel", "Storage", "Conduit", "Pod", "Hatch", "Regulator", "Display", "Inverter", "Spectrum", "Generator", "Cloud", "Field", "Terminal", "Module", "Procedure", "System", "Diagnostic", "Device", "Beam", "Probe", "Bank", "Tie-In", "Facility", "Bay", "Indicator", "Cell"];
+const loadBabble = () => {
+    fetch('./data/babble-data.json') 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); 
+        })  
+        .then(data => {
+            console.log('Success:', data);
+            
+            words1 = data.words1;
+            words2 = data.words2;
+            words3 = data.words3;
+            
+            init();
+        })
+        .catch(error => {
+            console.error('Babble load failed:', error);
+        });
+}
 
 const init = () => {
-    generateTechno;
-    document.querySelector("#btn-gen-1").addEventListener("click", () => generateTechno(1));
-    document.querySelector("#btn-gen-5").addEventListener("click", () => generateTechno(5));
+    document.querySelector("#btn-gen-1")
+        .addEventListener("click", () => generateTechno(1));
+    document.querySelector("#btn-gen-5")
+        .addEventListener("click", () => generateTechno(5));
 }
 
 const generateTechno= (num) => {
@@ -17,9 +38,10 @@ const generateTechno= (num) => {
     
     for (let i = 0; i < num; i++) {
         const newP = document.createElement('p');
-        newP.textContent = `${randomElement(words1)} ${randomElement(words2)} ${randomElement(words3)}`;
+        newP.textContent = 
+            `${randomElement(words1)} ${randomElement(words2)} ${randomElement(words3)}`;
         outputDiv.appendChild(newP);
     }
 }	
 
-init(); 
+window.addEventListener("load", loadBabble);
