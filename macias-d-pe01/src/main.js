@@ -9,15 +9,21 @@ const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platfor
 init(); 
 
 function init() {
-    generate();
-    document.querySelector("#myButton").addEventListener("click", generate);
+    generateTechno;
+    document.querySelector("#btn-gen-1").addEventListener("click", () => generateTechno(1));
+    document.querySelector("#btn-gen-5").addEventListener("click", () => generateTechno(5));
 }
 
 function randomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-function generate() {
-    const str = `${randomElement(words1)} ${randomElement(words2)} ${randomElement(words3)}?`;
-    document.querySelector("#output").innerHTML = str;;
+function generateTechno(num) {
+    const outputDiv = document.querySelector("#output");
+
+    for (let i = 0; i < num; i++) {
+        const newP = document.createElement('p');
+        newP.textContent = `${randomElement(words1)} ${randomElement(words2)} ${randomElement(words3)}`;
+        outputDiv.appendChild(newP);
+    }
 }	

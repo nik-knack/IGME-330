@@ -4,8 +4,10 @@ h1 {
     font-family: Quantico, sans-serif;
 }
 
-#btn-gen-5 {
-    display: none;
+@media (width <= 1408px){
+    #btn-gen-5 {
+        display: none;
+    }
 }
 
 @media only screen and (min-width:320px) {
@@ -83,8 +85,9 @@ h1 {
         background-color: #9423d1;
     }
 
-    #btn-gen-1 {
+    #btn-gen-1, #btn-gen-5 {
         width: 450px;
+        height: 75pt;
         font-size: 2rem;
     }
 }
