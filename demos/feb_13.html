@@ -12,7 +12,46 @@
         const canvas = document.querySelector('canvas');
         const ctx = canvas.getContext('2d');
 
+        // Square
+        const drawRect = (origin, w, h) => {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(origin[0], origin[1], w, h);
+    
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(origin[0], origin[1], w, h);
+        }
+
+        drawRect([10, 10], 100, 100);
         
+        // Circle
+        const drawCircle = (center, radius) => {
+            ctx.arc(center[0],  center[1], 
+                    radius, 
+                    0, 2 * Math.PI);
+            ctx.fillStyle = "orange";
+            ctx.strokeStyle = "green";
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        drawCircle([100, 100], 10);
+        drawCircle([200, 200], 50)
+
+        ctx.beginPath();
+        ctx.moveTo(200, 100);
+        ctx.lineTo(400, 200);
+        ctx.lineTo(400, 400);
+        ctx.closePath();
+
+        ctx.moveTo(200, 200);
+        ctx.lineTo(200, 300);
+        ctx.lineTo(100, 400);
+        ctx.closePath();
+
+        ctx.strokeStyle = 'purple';
+        ctx.stroke();
+        ctx.fillStyle = 'blue';
+        ctx.fill();
 
     </script> 
 </body>
