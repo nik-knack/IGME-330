@@ -45,7 +45,7 @@
 
 			// Draw circle
 			ctx.beginPath();
-			ctx.arc(550, 400, 50, 0, Math.PI);   
+			ctx.arc(550, 400, 50, 0, 2 * Math.PI);   
 			ctx.closePath();                    
 			ctx.fillStyle = "pink";
 			ctx.fill();
@@ -55,14 +55,13 @@
 
 			// Draw a semi circle
 			ctx.beginPath();
-			ctx.arc(550, 400, 50, 0, Math.PI);
-			ctx.moveTo(500,400);
-			ctx.lineTo(600, 400);
-            ctx.fillStyle = "pink";
-            ctx.fill();
-            ctx.strokeStyle = "darkViolet";
-            ctx.stroke();
-			ctx.closePath();
+			ctx.arc(400, 400, 50, 0, Math.PI);   
+			ctx.closePath();                    
+			ctx.fillStyle = "blue";
+			ctx.fill();
+			ctx.strokeStyle = "darkviolet";
+			ctx.lineWidth = 5;
+			ctx.stroke();
 
 			// Calculating the center of the canvas
 			const canvasCenter = [canvas.width / 2, canvas.height / 2];
