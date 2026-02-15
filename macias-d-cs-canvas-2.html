@@ -45,12 +45,13 @@
 
 			// Draw circle
 			ctx.beginPath();
-			ctx.arc(550,100, 50, 0, 2 * Math.PI);
-            ctx.fillStyle = "chartreuse";
-            ctx.fill();
-            ctx.strokeStyle = "purple";
-            ctx.stroke();
-			ctx.closePath();
+			ctx.arc(550, 400, 50, 0, Math.PI);   
+			ctx.closePath();                    
+			ctx.fillStyle = "pink";
+			ctx.fill();
+			ctx.strokeStyle = "darkviolet";
+			ctx.lineWidth = 5;
+			ctx.stroke();
 
 			// Draw a semi circle
 			ctx.beginPath();
@@ -63,11 +64,10 @@
             ctx.stroke();
 			ctx.closePath();
 
-			// // Draw circle near the center
-			const canvasWidth = canvas.width;
-			const canvasHeight = canvas.height;
-			const canvasCenter = [canvasWidth / 2, canvasHeight / 2];
-
+			// Calculating the center of the canvas
+			const canvasCenter = [canvas.width / 2, canvas.height / 2];
+			
+			// Draw circles near the center for eyes
 			ctx.beginPath();
 			ctx.arc(canvasCenter[0] - 40, canvasCenter[1] - 40, 20, 0, 2 * Math.PI);
             ctx.fillStyle = "chartreuse";
@@ -84,7 +84,7 @@
             ctx.stroke();
 			ctx.closePath();
 
-			// Line for mouth
+			// Draw line for mouth
 			ctx.beginPath();
 			ctx.moveTo(canvasCenter[0] - 300, canvasCenter[1] + 40);
 			ctx.lineTo(canvasCenter[0] + 300, canvasCenter[1] + 40);
