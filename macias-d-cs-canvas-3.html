@@ -8,43 +8,56 @@
 		border:1px solid rgb(135, 18, 153);
 	}
 	</style>
-	<script>
+</head>
+<body>
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+    <script>
 		"use strict";
 		
-		// #1 call the `init` function after the pages loads
-		window.onload = init;
+		let canvas = document.querySelector("canvas");
+		let ctx = canvas.getContext("2d");
 	
         // handy helper functions!
         function getRandomColor(){
             function getByte(){
                 return 55 + Math.round(Math.random() * 200);
         }
-            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.5)";
         }
 
         function getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-		function init(){
-			console.log("page loaded!");
-			// #2 Now that the page has loaded, start drawing!
-			
-			// A - `canvas` variable points at <canvas> tag
-			let canvas = document.querySelector("canvas");
-			
-			// B - the `ctx` variable points at a "2D drawing context"
-			let ctx = canvas.getContext("2d");
-			
-		
-		}
+        function drawRandomRect() {
+            let x = getRandomInt(0, canvas.width);
+            let y = getRandomInt(0, canvas.height);
+            let width = getRandomInt(20, 200);
+            let height = getRandomInt(20, 200);
 
+            ctx.save();
 
+            ctx.lineWidth = getRandomInt(1, 10);
+            ctx.strokeStyle = getRandomColor();
+            ctx.fillStyle = getRandomColor();
+
+            ctx.beginPath();
+            ctx.rect(x, y, width, height);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        drawRandomRect();
+        function update() {
+            drawRandomRect();
+            requestAnimationFrame(update);
+        }
+
+        update();
 	</script>
-</head>
-<body>
-	<canvas width="640" height="480">
-		Get a real browser!
-	</canvas>
 </body>
 </html>
