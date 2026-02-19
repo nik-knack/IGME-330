@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas 3</title>
+	<style>
+        canvas {
+            border:1px solid rgb(135, 18, 153);
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+	
+        button {
+        font-size:1.2em;
+        }
+            
+        section {
+        margin:.5em 0 .5em 0;
+        }
+	</style>
+</head>
+<body>
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+    <section>
+        <button id="btnPlay">Play</button>
+        <button id="btnPause">Pause</button>
+    </section>
+    <section>
+        <span>
+            <input type="checkbox" id="cbRectangles" checked>
+            <label for="cbRectangles">Rectangles</label>
+        </span>
+    </section>
+    <section>
+        <p>Click on the screen to "spraypaint" rectangles (you probably want the screensaver to be paused)</p>
+    </section>
+
+    <script>
+		"use strict";
+		
+		let canvas = document.querySelector("canvas");
+		let ctx = canvas.getContext("2d");
+	
+        // handy helper functions!
+        function getRandomColor(){
+            function getByte(){
+                return 55 + Math.round(Math.random() * 200);
+        }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.5)";
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function canvasClicked(e){
+            let rect = e.target.getBoundingClientRect();
+            let mouseX = e.clientX - rect.x;
+            let mouseY = e.clientY - rect.y;
+            console.log(mouseX,mouseY);
+        }
+
+        function drawRandomRect() {
+            let x = getRandomInt(0, canvas.width);
+            let y = getRandomInt(0, canvas.height);
+            let width = getRandomInt(20, 200);
+            let height = getRandomInt(20, 200);
+
+            ctx.save();
+
+            ctx.lineWidth = getRandomInt(1, 10);
+            ctx.strokeStyle = getRandomColor();
+            ctx.fillStyle = getRandomColor();
+
+            ctx.beginPath();
+            ctx.rect(x, y, width, height);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        drawRandomRect();
+        function update() {
+            drawRandomRect();
+            requestAnimationFrame(update);
+        }
+
+        update();
+
+        
+	</script>
+</body>
+</html>
