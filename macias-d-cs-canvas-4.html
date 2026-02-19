@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Canvas 3</title>
+	<title>Canvas 4</title>
 	<style>
         canvas {
             border:1px solid rgb(135, 18, 153);
@@ -44,7 +44,10 @@
 		
 		let canvas = document.querySelector("canvas");
 		let ctx = canvas.getContext("2d");
-	
+
+        // Pause boolean
+        let paused = false;
+
         // handy helper functions!
         function getRandomColor(){
             function getByte(){
@@ -85,12 +88,31 @@
         }
 
         drawRandomRect();
+
         function update() {
-            drawRandomRect();
             requestAnimationFrame(update);
+            
+            if (paused) {
+                drawRandomRect();
+            }
         }
 
-        update();
+        // Set up UI
+        function setupUI() {
+            document.querySelector("btnPlay").onclick = function() {
+                paused = false;
+            };
+
+            document.querySelector("#btnPause").onclick = function() {
+                paused = true;
+            };
+        }
+
+        // Init function
+        function init() {
+            setupUI();
+            update();
+        }
 
         
 	</script>
