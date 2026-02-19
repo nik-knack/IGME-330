@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas 3</title>
+	<style>
+	canvas{
+		border:1px solid rgb(135, 18, 153);
+	}
+	</style>
+	<script>
+		"use strict";
+		
+		// #1 call the `init` function after the pages loads
+		window.onload = init;
+	
+        // handy helper functions!
+        function getRandomColor(){
+            function getByte(){
+                return 55 + Math.round(Math.random() * 200);
+        }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+		function init(){
+			console.log("page loaded!");
+			// #2 Now that the page has loaded, start drawing!
+			
+			// A - `canvas` variable points at <canvas> tag
+			let canvas = document.querySelector("canvas");
+			
+			// B - the `ctx` variable points at a "2D drawing context"
+			let ctx = canvas.getContext("2d");
+			
+		
+		}
+
+
+	</script>
+</head>
+<body>
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+</body>
+</html>
