@@ -59,7 +59,7 @@
       let frameTime = ts - lastTs;
       let speedFactor = frameTime / 1000;
 
-      angle += speedFactor * 50;
+      angle += speedFactor * 50; // Delta time
 
       ctx.save();
       ctx.fillStyle = '#ddd'

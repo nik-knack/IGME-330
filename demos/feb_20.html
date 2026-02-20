@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border:1px solid rgb(135, 18, 153);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="640" height="480"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const drawPolygon = (x, y, vertices) => {
+      ctx.save();
+
+      ctx.translate(x, y);
+      ctx.beginPath();
+      ctx.moveTo(...vertices[0]);   // spread operator
+      for (let i = 1; i < vertices.length; i++) {
+        ctx.lineTo(...vertices[i]);
+      }
+      ctx.closePath();
+
+      ctx.fillStyle = "pink";
+      ctx.strokeStyle = "purple";
+      ctx.lineJoin = "round";
+      ctx.setLineDash([100, 5]);
+      ctx.lineWidth = 5;
+
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // const vertices=[
+    //   [0 , 0], [100, 100], [-100, 100]
+    // ];
+    // drawPolygon(100, 100, vertices);
+
+    drawDonut = (x, y) => {
+      ctx.save();
+
+      ctx.translate(x, y);
+      ctx.arc(0, 0, 100, 0, 2 * Math.PI, true);
+      ctx.arc(0, 0, 50, 0, 2 * Math.PI, false);
+
+      ctx.fillStyle = "brown";
+      ctx.fill();
+
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    drawDonut(250, 250);
+  </script>
+
+</body>
+
+</html>
