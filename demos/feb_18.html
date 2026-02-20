@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="canvas" width="640" height="480"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const rect = ({
+      x, y,
+      width, height,
+      style: {
+        fill: fillStyle,
+        stroke: strokeStyle,
+        strokeWidth: lineWidth
+      }
+    }) => {
+      ctx.save();
+      ctx.beginPath();
+
+      ctx.rect(x, y, width, height);
+
+      ctx.fillStyle = fillStyle;
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = lineWidth;
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    const squareSize = 100;
+    const params = {
+      x: width / 2 - squareSize / 2,
+      y: height / 2 - squareSize / 2,
+      width: 100,
+      height: 100,
+      style: {
+        fill: 'green',
+        stroke: 'blue',
+        strokeWidth: 2
+      }
+    };
+
+    let angle = 0;
+
+    let lastTs = 0;
+    const draw = (ts) => {
+      let frameTime = ts - lastTs;
+      let speedFactor = frameTime / 1000;
+
+      angle += speedFactor * 50;
+
+      ctx.save();
+      ctx.fillStyle = '#ddd'
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.translate(
+        width / 2,
+        height / 2
+      )
+      ctx.rotate(angle * Math.PI / 180);
+      ctx.translate(
+        -width / 2,
+        -height / 2
+      );
+
+      rect(params);
+
+      ctx.restore();
+
+      lastTs = ts;
+
+      requestAnimationFrame(draw);
+    }
+    
+    requestAnimationFrame(draw);
+
+
+  </script>
+
+</body>
+
+</html>
