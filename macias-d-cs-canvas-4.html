@@ -38,15 +38,45 @@
     <section>
         <p>Click on the screen to "spraypaint" rectangles (you probably want the screensaver to be paused)</p>
     </section>
-
+    
     <script>
-		"use strict";
+        "use strict";
 		
-		let canvas = document.querySelector("canvas");
-		let ctx = canvas.getContext("2d");
-
-        // Pause boolean
+		let canvas;
+		let ctx;
+        
         let paused = false;
+        
+        // Init function
+        function init() {
+            canvas = document.querySelector("canvas");
+            ctx = canvas.getContext("2d");
+            
+            setupUI();
+            update();
+        }
+        
+        // Set up UI buttons, checkbox, and canvas click
+        function setupUI() {
+            document.querySelector("#btnPlay").onclick = function() {
+                paused = false;
+            };
+
+            document.querySelector("#btnPause").onclick = function() {
+                paused = true;
+            };
+
+        }
+
+        // Animation loop
+        function update() {
+            requestAnimationFrame(update);
+            
+            if (!paused) {
+                drawRandomRect();
+                drawRandomTri();
+            }
+        }
 
         // Helper functions
         function getRandomColor(){
@@ -126,35 +156,7 @@
             ctx.restore();
         }
 
-        // Slow down speed of drawRect in update
-        let lastTime = 0;
-        let delay = 300;
-
-        function update(timestamp) {
-            requestAnimationFrame(update);
-            
-            if (!paused) {
-                drawRandomRect();
-                drawRandomTri();
-            }
-        }
-
-        // Set up UI
-        function setupUI() {
-            document.querySelector("btnPlay").onclick = function() {
-                paused = false;
-            };
-
-            document.querySelector("#btnPause").onclick = function() {
-                paused = true;
-            };
-        }
-
-        // Init function
-        function init() {
-            setupUI();
-            update();
-        }
+        init();
 
         
 	</script>
