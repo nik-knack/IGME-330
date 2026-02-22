@@ -48,7 +48,7 @@
         // Pause boolean
         let paused = false;
 
-        // handy helper functions!
+        // Helper functions
         function getRandomColor(){
             function getByte(){
                 return 55 + Math.round(Math.random() * 200);
@@ -68,6 +68,7 @@
         }
 
         function drawRandomRect() {
+            // Get random coordinates and width and height
             let x = getRandomInt(0, canvas.width);
             let y = getRandomInt(0, canvas.height);
             let width = getRandomInt(20, 200);
@@ -75,10 +76,13 @@
 
             ctx.save();
 
+            // Set random styles
             ctx.lineWidth = getRandomInt(1, 10);
+            ctx.lineJoin = "round";
             ctx.strokeStyle = getRandomColor();
             ctx.fillStyle = getRandomColor();
 
+            // Draw rectangles
             ctx.beginPath();
             ctx.rect(x, y, width, height);
             ctx.fill();
@@ -87,13 +91,51 @@
             ctx.restore();
         }
 
-        drawRandomRect();
+        function drawRandomTri() {
+            // Pick random center point
+            let center = [getRandomInt(0, canvas.width), getRandomInt(0, canvas.height)];
 
-        function update() {
+            // Control triangle size
+            let size = getRandomInt(50, 150);
+
+            // Get random vertices based on center
+            let vertices = [
+                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)], 
+                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)], 
+                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)]
+            ];
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(...vertices[0]);   
+            for (let i = 1; i < vertices.length; i++) {
+                ctx.lineTo(...vertices[i]);
+            }
+            ctx.closePath();
+
+            // Set random styles
+            ctx.lineWidth = getRandomInt(1, 10);
+            ctx.lineJoin = "round";
+            ctx.strokeStyle = getRandomColor();
+            ctx.fillStyle = getRandomColor();
+
+            // Draw triangle
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        // Slow down speed of drawRect in update
+        let lastTime = 0;
+        let delay = 300;
+
+        function update(timestamp) {
             requestAnimationFrame(update);
             
-            if (paused) {
+            if (!paused) {
                 drawRandomRect();
+                drawRandomTri();
             }
         }
 
