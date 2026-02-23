@@ -35,11 +35,11 @@
             <label for="cbRectangles">Rectangles</label>
         </span>
         <span>
-            <input type="checkbox" id="cbArcs" checked>
+            <input type="checkbox" id="cbArcs" unchecked>
             <label for="cbArcs">Arcs</label>
         </span>
         <span>
-            <input type="checkbox" id="cbLines" checked>
+            <input type="checkbox" id="cbLines" unchecked>
             <label for="cbLines">Lines</label>
         </span>
         <section>
@@ -86,17 +86,17 @@
                 createRectangles = e.target.checked;
             }
 
-            // docuement.querySelector("#cbArcs").onclick = function(e) {
-            //     createArcs = e.target.checked;
-            // }
+            document.querySelector("#cbArcs").onclick = function(e) {
+                createArcs = e.target.checked;
+            }
 
-            // document.querySelector("#cdLines").onclick = function(e) {
-            //     createLines = e.target.checked;
-            // }
+            document.querySelector("#cbLines").onclick = function(e) {
+                createLines = e.target.checked;
+            }
 
-            // document.querySelector("#btnClear").onclick = function() {
-            //     ctx.clearRect(0, 0,canvas.width, canvas.height);
-            // }
+            document.querySelector("#btnClear").onclick = function() {
+                ctx.clearRect(0, 0,canvas.width, canvas.height);
+            }
         }
 
         // Animation loop
@@ -104,8 +104,15 @@
             requestAnimationFrame(update);
             
             if (!paused && createRectangles) {
-                drawRandomRect(ctx);
-                
+                drawRandomRect(ctx); 
+            }
+
+            if (!paused && createArcs){
+                drawRandomArc();
+            }
+
+            if (!paused && createLines){
+                drawRandomLine();
             }
             if (!paused && !createRectangles) {
                 drawRandomTri();
@@ -204,6 +211,31 @@
             // Draw rectangle
             drawRectangle(ctx, x, y, width, height, fillColor, lineWidth, strokeStyle);
         }
+
+        function drawRandomArc() {
+            let x = getRandomInt(0, canvas.width);
+            let y = getRandomInt(0, canvas.height);
+            let radius = getRandomInt(10, 100);
+
+            let fillColor = getRandomColor();
+            let lineWidth = getRandomInt(1, 10);
+            let strokeStyle = getRandomColor();
+
+            drawArc(ctx, x, y, radius, fillColor, lineWidth, strokeStyle);
+        }
+
+        function drawRandomLine() {
+            let x1 = getRandomInt(0, canvas.width);
+            let y1 = getRandomInt(0, canvas.height);
+            let x2 = getRandomInt(0, canvas.width);
+            let y2 = getRandomInt(0, canvas.height);
+
+            let lineWidth = getRandomInt(1, 10);
+            let strokeStyle = getRandomColor();
+
+            drawLine(ctx, x1, y1, x2, y2, lineWidth, strokeStyle);
+        }
+
 
         function drawRandomTri() {
             // Pick random center point
