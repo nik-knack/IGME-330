@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Canvas 5</title>
+	<title>Screensaver</title>
 	<style>
         canvas {
             border:1px solid rgb(135, 18, 153);
@@ -60,6 +60,9 @@
         let createRectangles = true;
         let createArcs = false;
         let createLines = false;
+
+        let frameCount = 0;
+        let drawDelay = 10;
         
         // Init function
         function init() {
@@ -103,19 +106,22 @@
         function update() {
             requestAnimationFrame(update);
             
-            if (!paused && createRectangles) {
+            if (paused) return;
+
+            frameCount++;
+
+            if (frameCount % drawDelay !== 0) return;
+
+            if (createRectangles) {
                 drawRandomRect(ctx); 
             }
 
-            if (!paused && createArcs){
+            if (createArcs){
                 drawRandomArc();
             }
 
-            if (!paused && createLines){
+            if (createLines){
                 drawRandomLine();
-            }
-            if (!paused && !createRectangles) {
-                drawRandomTri();
             }
         }
 
@@ -140,9 +146,9 @@
                 let randX = mouseX + Math.random() * 50 - 10;
                 let randY = mouseY + Math.random() * 50 - 10;
 
-                let size = Math.random() * 10;
+                let randRad = Math.random() * 10;
 
-                drawRectangle(ctx, randX, randY, size, size, "blue");
+                drawArc(ctx, randX, randY, randRad,"blue");
             }
         }
 
@@ -213,63 +219,33 @@
         }
 
         function drawRandomArc() {
+            // Get random values for coordinates and radius
             let x = getRandomInt(0, canvas.width);
             let y = getRandomInt(0, canvas.height);
             let radius = getRandomInt(10, 100);
 
+            // Get random values for fill and stroke
             let fillColor = getRandomColor();
             let lineWidth = getRandomInt(1, 10);
             let strokeStyle = getRandomColor();
 
+            // Draw arc
             drawArc(ctx, x, y, radius, fillColor, lineWidth, strokeStyle);
         }
 
         function drawRandomLine() {
+            // Get random values for coordinates
             let x1 = getRandomInt(0, canvas.width);
             let y1 = getRandomInt(0, canvas.height);
             let x2 = getRandomInt(0, canvas.width);
             let y2 = getRandomInt(0, canvas.height);
 
+            // Get random values for stroke
             let lineWidth = getRandomInt(1, 10);
             let strokeStyle = getRandomColor();
 
+            // Draw line
             drawLine(ctx, x1, y1, x2, y2, lineWidth, strokeStyle);
-        }
-
-
-        function drawRandomTri() {
-            // Pick random center point
-            let center = [getRandomInt(0, canvas.width), getRandomInt(0, canvas.height)];
-
-            // Control triangle size
-            let size = getRandomInt(50, 150);
-
-            // Get random vertices based on center
-            let vertices = [
-                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)], 
-                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)], 
-                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)]
-            ];
-
-            ctx.save();
-            ctx.beginPath();
-            ctx.moveTo(...vertices[0]);   
-            for (let i = 1; i < vertices.length; i++) {
-                ctx.lineTo(...vertices[i]);
-            }
-            ctx.closePath();
-
-            // Set random styles
-            ctx.lineWidth = getRandomInt(1, 10);
-            ctx.lineJoin = "round";
-            ctx.strokeStyle = getRandomColor();
-            ctx.fillStyle = getRandomColor();
-
-            // Draw triangle
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.restore();
         }
 
         init();
