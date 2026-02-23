@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Canvas 4</title>
+	<style>
+        canvas {
+            border:1px solid rgb(135, 18, 153);
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+	
+        button {
+        font-size:1.2em;
+        }
+            
+        section {
+        margin:.5em 0 .5em 0;
+        }
+	</style>
+</head>
+<body>
+	<canvas width="640" height="480">
+		Get a real browser!
+	</canvas>
+    <section>
+        <button id="btnPlay">Play</button>
+        <button id="btnPause">Pause</button>
+    </section>
+    <section>
+        <span>
+            <input type="checkbox" id="cbRectangles" checked>
+            <label for="cbRectangles">Rectangles</label>
+        </span>
+    </section>
+    <section>
+        <p>Click on the screen to "spraypaint" rectangles (you probably want the screensaver to be paused)</p>
+    </section>
+    
+    <script>
+        "use strict";
+		
+		let canvas;
+		let ctx;
+        
+        let paused = false;
+        let createRectangles = true;
+        
+        // Init function
+        function init() {
+            canvas = document.querySelector("canvas");
+            ctx = canvas.getContext("2d");
+            
+            setupUI();
+            update();
+        }
+        
+        // Set up UI buttons, checkbox, and canvas click
+        function setupUI() {
+            document.querySelector("#btnPlay").onclick = function() {
+                paused = false;
+            };
+
+            document.querySelector("#btnPause").onclick = function() {
+                paused = true;
+            };
+
+            document.querySelector("canvas").onclick = canvasClicked;
+
+            document.querySelector("#cbRectangles").onclick = function(e) {
+                createRectangles = e.target.checked;
+            }
+        }
+
+        // Animation loop
+        function update() {
+            requestAnimationFrame(update);
+            
+            if (!paused && createRectangles) {
+                drawRandomRect(ctx);
+                
+            }
+            if (!paused && !createRectangles) {
+                drawRandomTri();
+            }
+        }
+
+        // Helper functions
+        function getRandomColor(){
+            function getByte(){
+                return 55 + Math.round(Math.random() * 200);
+        }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.5)";
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function canvasClicked(e){
+            let rect = e.target.getBoundingClientRect();
+            let mouseX = e.clientX - rect.x;
+            let mouseY = e.clientY - rect.y;
+
+            for (let i = 0; i < 10; i++) {
+                let randX = mouseX + Math.random() * 50 - 10;
+                let randY = mouseY + Math.random() * 50 - 10;
+
+                let size = Math.random() * 10;
+
+                drawRectangle(ctx, randX, randY, size, size, "blue");
+            }
+        }
+
+        function drawRectangle(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black") {  
+            ctx.save();
+
+            ctx.fillStyle = fillStyle;
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = lineWidth;
+            ctx.lineJoin = "round";
+
+            ctx.beginPath();
+            ctx.rect(x,y,width,height);
+            ctx.closePath();
+
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+        function drawRandomRect() {
+            // Get random coordinates and width and height
+            let x = getRandomInt(0, canvas.width);
+            let y = getRandomInt(0, canvas.height);
+            let width = getRandomInt(20, 200);
+            let height = getRandomInt(20, 200);
+            let fillColor = getRandomColor();
+            let lineWidth = getRandomInt(1, 10);
+            let strokeStyle = getRandomColor();
+
+            // Draw rectangle
+            drawRectangle(ctx, x, y, width, height, fillColor, lineWidth, strokeStyle);
+        }
+
+        function drawRandomTri() {
+            // Pick random center point
+            let center = [getRandomInt(0, canvas.width), getRandomInt(0, canvas.height)];
+
+            // Control triangle size
+            let size = getRandomInt(50, 150);
+
+            // Get random vertices based on center
+            let vertices = [
+                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)], 
+                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)], 
+                [center[0] + getRandomInt(-size, size), center[1] + getRandomInt(-size, size)]
+            ];
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(...vertices[0]);   
+            for (let i = 1; i < vertices.length; i++) {
+                ctx.lineTo(...vertices[i]);
+            }
+            ctx.closePath();
+
+            // Set random styles
+            ctx.lineWidth = getRandomInt(1, 10);
+            ctx.lineJoin = "round";
+            ctx.strokeStyle = getRandomColor();
+            ctx.fillStyle = getRandomColor();
+
+            // Draw triangle
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        init();
+
+        
+	</script>
+</body>
+</html>
