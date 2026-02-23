@@ -58,6 +58,8 @@
         
         let paused = false;
         let createRectangles = true;
+        let createArcs = false;
+        let createLines = false;
         
         // Init function
         function init() {
@@ -68,7 +70,7 @@
             update();
         }
         
-        // Set up UI buttons, checkbox, and canvas click
+        // Set up UI buttons, checkboxes, and canvas click and clear
         function setupUI() {
             document.querySelector("#btnPlay").onclick = function() {
                 paused = false;
@@ -83,6 +85,18 @@
             document.querySelector("#cbRectangles").onclick = function(e) {
                 createRectangles = e.target.checked;
             }
+
+            // docuement.querySelector("#cbArcs").onclick = function(e) {
+            //     createArcs = e.target.checked;
+            // }
+
+            // document.querySelector("#cdLines").onclick = function(e) {
+            //     createLines = e.target.checked;
+            // }
+
+            // document.querySelector("#btnClear").onclick = function() {
+            //     ctx.clearRect(0, 0,canvas.width, canvas.height);
+            // }
         }
 
         // Animation loop
@@ -142,6 +156,25 @@
 
             ctx.restore();
         }
+
+        function drawArc(ctx, x, y, radius, fillStyle="black", lineWidth=0, strokeStyle="black", startAngle=0,endAngle=Math.PI*2) {
+            ctx.save();
+
+            ctx.fillStyle = fillStyle;
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = lineWidth;
+            ctx.lineJoin = "round";
+
+            ctx.beginPath();
+            ctx.arc(x, y, radius, startAngle, endAngle);
+            ctx.closePath();
+
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
         function drawRandomRect() {
             // Get random coordinates and width and height
             let x = getRandomInt(0, canvas.width);
