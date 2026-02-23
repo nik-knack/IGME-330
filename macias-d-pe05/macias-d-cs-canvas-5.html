@@ -175,6 +175,22 @@
             ctx.restore();
         }
 
+        function drawLine(ctx, x1, x2, y1, y2, lineWidth=1, strokeStyle="black") {
+            ctx.save();
+
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = lineWidth;
+            ctx.lineJoin = "round";
+
+            ctx.beginPath();
+            ctx.moveTo(x1, x2);
+            ctx.lineTo(y1, y2);
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.restore();
+        }
+
         function drawRandomRect() {
             // Get random coordinates and width and height
             let x = getRandomInt(0, canvas.width);
