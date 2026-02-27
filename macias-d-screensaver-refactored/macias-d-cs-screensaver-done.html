@@ -65,7 +65,7 @@
         let drawDelay = 10;
         
         // Init function
-        function init() {
+        const init = () => {
             canvas = document.querySelector("canvas");
             ctx = canvas.getContext("2d");
             
@@ -74,7 +74,7 @@
         }
         
         // Set up UI buttons, checkboxes, and canvas click and clear
-        function setupUI() {
+        const setupUI = () => {
             document.querySelector("#btn-play").onclick = function() {
                 paused = false;
             };
@@ -103,7 +103,7 @@
         }
 
         // Animation loop
-        function update() {
+        const update = () => {
             requestAnimationFrame(update);
             
             if (paused) return;
@@ -126,18 +126,18 @@
         }
 
         // Helper functions
-        function getRandomColor(){
-            function getByte(){
+        const getRandomColor = () => {
+            const getByte = () => {
                 return 55 + Math.round(Math.random() * 200);
         }
             return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.5)";
         }
 
-        function getRandomInt(min, max) {
+        const getRandomInt = (min, max) => {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        function canvasClicked(e){
+        const canvasClicked = (e) => {
             let rect = e.target.getBoundingClientRect();
             let mouseX = e.clientX - rect.x;
             let mouseY = e.clientY - rect.y;
@@ -152,7 +152,7 @@
             }
         }
 
-        function drawRectangle(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black") {  
+        const drawRectangle = (ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black") => {  
             ctx.save();
 
             ctx.fillStyle = fillStyle;
@@ -170,7 +170,7 @@
             ctx.restore();
         }
 
-        function drawArc(ctx, x, y, radius, fillStyle="black", lineWidth=0, strokeStyle="black", startAngle=0,endAngle=Math.PI*2) {
+        const drawArc = (ctx, x, y, radius, fillStyle="black", lineWidth=0, strokeStyle="black", startAngle=0,endAngle=Math.PI*2) => {
             ctx.save();
 
             ctx.fillStyle = fillStyle;
@@ -188,7 +188,7 @@
             ctx.restore();
         }
 
-        function drawLine(ctx, x1, x2, y1, y2, lineWidth=1, strokeStyle="black") {
+        const drawLine = (ctx, x1, x2, y1, y2, lineWidth=1, strokeStyle="black") => {
             ctx.save();
 
             ctx.strokeStyle = strokeStyle;
@@ -204,7 +204,7 @@
             ctx.restore();
         }
 
-        function drawRandomRect() {
+        const drawRandomRect = () => {
             // Get random coordinates and width and height
             let x = getRandomInt(0, canvas.width);
             let y = getRandomInt(0, canvas.height);
@@ -218,7 +218,7 @@
             drawRectangle(ctx, x, y, width, height, fillColor, lineWidth, strokeStyle);
         }
 
-        function drawRandomArc() {
+        const drawRandomArc = () => {
             // Get random values for coordinates and radius
             let x = getRandomInt(0, canvas.width);
             let y = getRandomInt(0, canvas.height);
@@ -233,7 +233,7 @@
             drawArc(ctx, x, y, radius, fillColor, lineWidth, strokeStyle);
         }
 
-        function drawRandomLine() {
+        const drawRandomLine = () => {
             // Get random values for coordinates
             let x1 = getRandomInt(0, canvas.width);
             let y1 = getRandomInt(0, canvas.height);
