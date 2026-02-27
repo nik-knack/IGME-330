@@ -26,24 +26,24 @@
 		Get a real browser!
 	</canvas>
     <section>
-        <button id="btnPlay">Play</button>
-        <button id="btnPause">Pause</button>
+        <button id="btn-play">Play</button>
+        <button id="btn-pause">Pause</button>
     </section>
     <section>
         <span>
-            <input type="checkbox" id="cbRectangles" checked>
-            <label for="cbRectangles">Rectangles</label>
+            <input type="checkbox" id="cb-rectangles" checked>
+            <label for="cb-rectangles">Rectangles</label>
         </span>
         <span>
-            <input type="checkbox" id="cbArcs" unchecked>
-            <label for="cbArcs">Arcs</label>
+            <input type="checkbox" id="cb-arcs" unchecked>
+            <label for="cb-arcs">Arcs</label>
         </span>
         <span>
-            <input type="checkbox" id="cbLines" unchecked>
-            <label for="cbLines">Lines</label>
+            <input type="checkbox" id="cb-lines" unchecked>
+            <label for="cb-lines">Lines</label>
         </span>
         <section>
-            <button id="btnClear">Clear Screen</button>
+            <button id="btn-clear">Clear Screen</button>
         </section>
     </section>
     <section>
@@ -75,29 +75,29 @@
         
         // Set up UI buttons, checkboxes, and canvas click and clear
         function setupUI() {
-            document.querySelector("#btnPlay").onclick = function() {
+            document.querySelector("#btn-play").onclick = function() {
                 paused = false;
             };
 
-            document.querySelector("#btnPause").onclick = function() {
+            document.querySelector("#btn-pause").onclick = function() {
                 paused = true;
             };
 
             document.querySelector("canvas").onclick = canvasClicked;
 
-            document.querySelector("#cbRectangles").onclick = function(e) {
+            document.querySelector("#cb-rectangles").onclick = function(e) {
                 createRectangles = e.target.checked;
             }
 
-            document.querySelector("#cbArcs").onclick = function(e) {
+            document.querySelector("#cb-arcs").onclick = function(e) {
                 createArcs = e.target.checked;
             }
 
-            document.querySelector("#cbLines").onclick = function(e) {
+            document.querySelector("#cb-lines").onclick = function(e) {
                 createLines = e.target.checked;
             }
 
-            document.querySelector("#btnClear").onclick = function() {
+            document.querySelector("#btn-clear").onclick = function() {
                 ctx.clearRect(0, 0,canvas.width, canvas.height);
             }
         }
