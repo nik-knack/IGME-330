@@ -21,13 +21,13 @@
 	}
 
     function loop(){
-        let counter = 0;
+        let angle = 0;
         let increase = Math.PI * 2 / 100;
         for (let i = 0; i < 1; i += .01) {
             x = i;
-            y = Math.sin(counter) / 2 + 0.5;
+            y = Math.sin(angle) / 2 + 0.5;
             drawCircle(ctx,x * canvasWidth,canvasHeight / 2 + (y * 100),2,"white")
-            counter += increase;
+            angle += increase;
         }
     }
 
