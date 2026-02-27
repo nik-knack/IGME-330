@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas width="600" height="430"></canvas>
+
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const rect = ({
+      x, y,
+      width, height,
+      style: {
+        fill: fillStyle,
+        stroke: strokeStyle,
+        strokeWidth: lineWidth
+      }
+    }) => {
+      ctx.save();
+      ctx.beginPath();
+
+      ctx.rect(x, y, width, height);
+
+      ctx.fillStyle = fillStyle;
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = lineWidth;
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    let myRects = [
+      { x: 100, y: 100 },
+      { x: 200, y: 50 },
+      { x: 50, y: 50 }
+    ]
+
+    let mousePos = [0, 0];
+    canvas.addEventListener('mousemove', (evt) => {
+      mousePos = [evt.offsetX, evt.offsetY];
+    });
+
+    let keyWDown = false;
+    let keySDown = false;
+    let keyADown = false;
+    let keyDDown = false;
+    document.addEventListener('keydown', (evt) => {
+      if (evt.code === 'KeyW') {
+        keyWDown = true;
+      }
+      if (evt.code === 'KeyS') {
+        keySDown = true;
+      }
+      if (evt.code === 'KeyA') {
+        keyADown = true;
+      }
+      if (evt.code === 'KeyD') {
+        keyDDown = true;
+      }
+    });
+    document.addEventListener('keyup', (evt) => {
+      // code == KeyW, KeyS, KeyA, KeyD
+      if (evt.code === 'KeyW') keyWDown = false;
+      if (evt.code === 'KeyS') keySDown = false;
+      if (evt.code === 'KeyA') keyADown = false;
+      if (evt.code === 'KeyD') keyDDown = false;
+    });
+
+    const update = (deltaT, state) => {
+      const frameRate = deltaT / 1000;
+
+      const { xChange, yChange } = state;
+
+      myRects[0].x = myRects[0].x + xChange;
+      myRects[0].y = myRects[0].y + yChange;
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.save();
+
+      myRects.forEach((theRect, i) => {
+        rect({
+          x: theRect.x,
+          y: theRect.y,
+          width: 20,
+          height: 20,
+          style: {
+            fill: 'green',
+            stroke: 'blue',
+            strokeWidth: 3
+          }
+        });
+      })
+
+      ctx.restore();
+    }
+
+    let lastTs = 0;
+    const step = (ts) => {
+      const deltaT = ts - lastTs;
+      lastTs = ts;
+
+      let yChange = 0; 
+      if (keyWDown) yChange += 1;
+      if (keySDown) yChange += -1;
+
+      let xChange = 0;
+      if (keyADown) xChange += 1;
+      if (keyDDown) xChange += -1;
+
+      const state = {
+        xChange: xChange,
+        yChange: yChange
+      }
+
+      update(deltaT, state);
+      draw();
+
+      console.log(keyWDown, keySDown, keyADown, keyDDown);
+
+
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>
