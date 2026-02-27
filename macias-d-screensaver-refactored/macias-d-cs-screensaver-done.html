@@ -130,7 +130,7 @@
             const getByte = () => {
                 return 55 + Math.round(Math.random() * 200);
         }
-            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.5)";
+            return `rgba(${getByte()}, ${getByte()}, ${getByte()}, .5)`;
         }
 
         const getRandomInt = (min, max) => {
