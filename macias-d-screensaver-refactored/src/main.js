@@ -1,3 +1,5 @@
+import { getRandomColor, getRandomInt } from "./utils.js";
+
 let canvas;
 let ctx;
 
@@ -68,18 +70,6 @@ const update = () => {
     if (createLines){
         drawRandomLine();
     }
-}
-
-// Helper functions
-const getRandomColor = () => {
-    const getByte = () => {
-        return 55 + Math.round(Math.random() * 200);
-}
-    return `rgba(${getByte()}, ${getByte()}, ${getByte()}, .5)`;
-}
-
-const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 const canvasClicked = (e) => {
