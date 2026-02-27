@@ -12,7 +12,6 @@ let createLines = false;
 let frameCount = 0;
 let drawDelay = 10;
 
-// Init function
 const init = () => {
     canvas = document.querySelector("canvas");
     ctx = canvas.getContext("2d");
@@ -21,7 +20,6 @@ const init = () => {
     update();
 }
 
-// Set up UI buttons, checkboxes, and canvas click and clear
 const setupUI = () => {
     document.querySelector("#btn-play").onclick = function() {
         paused = false;
@@ -50,7 +48,6 @@ const setupUI = () => {
     }
 }
 
-// Animation loop
 const update = () => {
     requestAnimationFrame(update);
     
@@ -89,46 +86,39 @@ const canvasClicked = (e) => {
 }
 
 const drawRandomRect = () => {
-    // Get random coordinates and width and height
     let x = getRandomInt(0, canvas.width);
     let y = getRandomInt(0, canvas.height);
     let width = getRandomInt(20, 200);
     let height = getRandomInt(20, 200);
+
     let fillColor = getRandomColor();
     let lineWidth = getRandomInt(1, 10);
     let strokeStyle = getRandomColor();
 
-    // Draw rectangle
     drawRectangle(ctx, x, y, width, height, fillColor, lineWidth, strokeStyle);
 }
 
 const drawRandomArc = () => {
-    // Get random values for coordinates and radius
     let x = getRandomInt(0, canvas.width);
     let y = getRandomInt(0, canvas.height);
     let radius = getRandomInt(10, 100);
 
-    // Get random values for fill and stroke
     let fillColor = getRandomColor();
     let lineWidth = getRandomInt(1, 10);
     let strokeStyle = getRandomColor();
 
-    // Draw arc
     drawArc(ctx, x, y, radius, fillColor, lineWidth, strokeStyle);
 }
 
 const drawRandomLine = () => {
-    // Get random values for coordinates
     let x1 = getRandomInt(0, canvas.width);
     let y1 = getRandomInt(0, canvas.height);
     let x2 = getRandomInt(0, canvas.width);
     let y2 = getRandomInt(0, canvas.height);
 
-    // Get random values for stroke
     let lineWidth = getRandomInt(1, 10);
     let strokeStyle = getRandomColor();
 
-    // Draw line
     drawLine(ctx, x1, y1, x2, y2, lineWidth, strokeStyle);
 }
 
