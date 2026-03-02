@@ -113,12 +113,12 @@
       lastTs = ts;
 
       let yChange = 0; 
-      if (keyWDown) yChange += 1;
-      if (keySDown) yChange += -1;
+      if (keyWDown) yChange += -1;
+      if (keySDown) yChange += 1;
 
       let xChange = 0;
-      if (keyADown) xChange += 1;
-      if (keyDDown) xChange += -1;
+      if (keyADown) xChange += -1;
+      if (keyDDown) xChange += 1;
 
       const state = {
         xChange: xChange,
