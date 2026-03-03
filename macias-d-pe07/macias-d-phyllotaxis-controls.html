@@ -7,45 +7,88 @@
 	<script>
 	"use strict";
 	const canvasWidth = 400, canvasHeight = 300;
-	let ctx;
-
 	const dotRadius = 3;
-	const fps = 30;
+	const fps = 60;
 	const c = 4;
-	const maxPoints = 1500;
+	const clearInterval = 800;
+	const defaultCenterX = canvasWidth / 2;
+	const defaultCenterY = canvasHeight / 2;
 
+	
+	let ctx;
 	let n = 0;
-	const divergence = 137.5;
-	let centerX = canvasWidth / 2;
-	let centerY = canvasHeight / 2;
+	let divergence = 137.5;
+	let centerX;
+	let centerY;
 
     window.onload = init; 
 
 	function init(){
+		const canvas = document.querySelector("#canvas");
 		ctx = canvas.getContext("2d");
 		canvas.width = canvasWidth;
 		canvas.height = canvasHeight;
-		ctx.fillRect(0,0,canvasWidth,canvasHeight);
-        loop();
+
+		centerX = defaultCenterX;
+		centerY = defaultCenterY;
+		
+		canvas.onclick = drawFlowerAtClick;
+
+		document.querySelector("#btn-restart").onclick = () => restart(true);
+        document.querySelector("#ctrl-divergence").onchange = changeDivergence;
+		
+		clearScreen();
+		restart();
+		loop();	
 	}
 
     function loop(){
 		setTimeout(loop, 1000/fps);
 
+		if (n > clearInterval){
+			restart();
+			return;
+		}
+
 		let a = n * dtr(divergence);
 		let r = c * Math.sqrt(n);
 		
-		let x = r * Math.cos(a) + canvasWidth/2;
-		let y = r * Math.sin(a) + canvasHeight/2;
+		let x = r * Math.cos(a) + centerX;
+		let y = r * Math.sin(a) + centerY;
 
-		let aDegrees = (n * divergence) % 361;
 		let color = `hsl(${n/5 % 361},100%,50%)`;
 		
 		drawCircle(ctx,x,y,2,color);
 		n++;
     }
 
-	// helpers
+	function restart(resetToCenter = false) {
+		n = 0;
+
+		if(resetToCenter){
+			centerX = defaultCenterX;
+			centerY = defaultCenterY;
+		}
+
+		clearScreen();
+	}
+
+	function changeDivergence(e) {
+		divergence = parseFloat(e.target.value);
+		restart();
+	}
+
+	function drawFlowerAtClick(e) {
+		centerX = e.offsetX;
+		centerY = e.offsetY;
+		restart();
+	}
+
+	function clearScreen(){
+		ctx.fillStyle = "black";
+		ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+	}
+
 	function dtr(degrees){
 		return degrees * (Math.PI/180);
 	}
@@ -74,6 +117,22 @@
 			<option value="137.7">137.9</option>
 		</select>
 		<button id="btn-restart">Restart App</button>
+		<h1>About this app</h1>
+		<ul>
+			<li>The pulldown menu changes the divergence angle</li>
+			<li>
+				The restart app button will redraw the flower at the center of 
+				the screen at the selected divergence angle
+			</li>
+			<li>
+				Changes made from starter code:
+				<ul>
+					<li>Increased framerate to 60 fps</li>
+					<li>Allow user to draw a flower at click</li>
+					<li>Clear the screen once the n, number of points, reaches 800</li>
+				</ul>
+			</li>
+		</ul>
 	</div>
 
 </body>
