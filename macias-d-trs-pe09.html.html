@@ -17,11 +17,17 @@
 		'use strict';	
         let ctx = document.querySelector('canvas').getContext('2d');
 		let rotation = 0;
+        let time = 0;
         loop();
 	
 		function loop(){
             requestAnimationFrame(loop);
             rotation += .05;
+            time += .05;
+
+            // Oscillates between -1 and 1
+            let scale = 1 + Math.sin(time) * 0.5;
+            let translate = 100 + Math.sin(time) * 50;
 
 			// background
 			ctx.fillStyle = 'yellow'; 
@@ -48,8 +54,8 @@
             drawSquare2(ctx,500,300,100,100,rotation,"purple",1.25);
             
             // draw triangle and star with helper functions
-            drawTriangle(ctx,200,300,rotation,2,"magenta","pink",10);
-            drawStar(ctx, 100, 400, 5, 50, 20, -rotation, 1.2, "cyan", "blue", 3);
+            drawTriangle(ctx,150,300,rotation,1.5,"magenta","pink",10);
+            drawStar(ctx, translate, translate, 5, 50, 20, -rotation, scale, "cyan", "blue", 3);
             
 			// do some transformations?
             ctx.save();
