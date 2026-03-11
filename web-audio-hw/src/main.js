@@ -41,7 +41,7 @@ const loop = () => {
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
-	sound1  :  "media/New Adventure Theme.mp3"
+	sound1  :  "media/Born of a Star.mp3"
 });
 
 audio.setupWebaudio(DEFAULTS.sound1);
