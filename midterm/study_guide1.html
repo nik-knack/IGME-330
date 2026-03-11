@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGME 330 - Exam 1 Study Guide</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
+</head>
+<body>
+    <zero-md>
+        <template>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github.min.css" />
+        </template>
+        <script type="text/markdown">
+# IGME 330 — Exam 1 Study Guide
+
+This guide covers what you need to know. Each topic includes a code example you should be able to read, understand, and write from memory.
+
+---
+
+## 1. Arrow Functions, Pure Functions, and Default Parameters
+
+Know the difference between long-form and short-form (implied return) arrow functions. Know what makes a function "pure."
+
+```javascript
+// Long form
+const add = (a, b) => {
+  return a + b;
+};
+
+// Short form (implied return — no curly braces)
+const add = (a, b) => a + b;
+
+// Default parameters
+const greet = (name = "stranger") => `Hello, ${name}!`;
+greet("Alice"); // "Hello, Alice!"
+greet();        // "Hello, stranger!"
+
+// Pure function: same input → same output, no side effects
+const double = (n) => n * 2;
+```
+
+---
+
+## 2. `map()`, `filter()`, and Array Immutability
+
+Both return **new arrays** — they never mutate the original. `map` must **return** a value (using it for side effects is an anti-pattern).
+
+```javascript
+const scores = [85, 42, 97, 61, 55];
+
+// filter: keep only passing scores
+const passing = scores.filter(s => s >= 60);
+// [85, 97, 61]
+
+// map: transform each value
+const curved = scores.map(s => s + 10);
+// [95, 52, 107, 71, 65]
+
+// chain them together
+const passingCurved = scores
+  .filter(s => s >= 60)
+  .map(s => s + 10);
+// [95, 107, 71]
+
+// map + join to generate HTML
+const names = ['Alice', 'Bob', 'Charlie'];
+const html = names
+  .map(name => `<li>${name}</li>`)
+  .join('');
+// "<li>Alice</li><li>Bob</li><li>Charlie</li>"
+```
+
+---
+
+## 3. Reference vs. Value Types
+
+Primitives (numbers, strings, booleans) are copied by **value**. Objects and arrays are copied by **reference** (alias). The spread operator creates a shallow copy.
+
+```javascript
+// Primitives — independent copies
+let a = 10;
+let b = a;
+a++;
+console.log(a); // 11
+console.log(b); // 10 (unaffected)
+
+// Strings are immutable primitives
+let x = "Fred";
+x.toUpperCase();    // returns "FRED" but doesn't change x
+console.log(x);     // "Fred"
+
+// Arrays — reference (alias)
+let colors = ["red", "green"];
+let alias = colors;
+alias.push("blue");
+console.log(colors); // ["red", "green", "blue"] — both changed!
+
+// Spread operator — shallow copy
+const original = { name: "Fred", hp: 100 };
+const copy = { ...original, hp: 50 };
+console.log(original.hp); // 100 (unaffected)
+console.log(copy.hp);     // 50
+```
+
+---
+
+## 4. `const` — Prevents Reassignment, Not Mutation
+
+```javascript
+const arr = ["red", "green", "blue"];
+arr.push("magenta");  // ✅ works — mutating contents
+arr = ["yellow"];      // ❌ ERROR — can't reassign a const
+```
+
+---
+
+## 5. ES6 Modules (Import/Export)
+
+Modules are **strict mode by default** (no need for `"use strict"`). Module scripts execute **after** the HTML is fully parsed (no need for `window.onload`).
+
+```javascript
+// utils.js
+const add = (a, b) => a + b;
+const multiply = (a, b) => a * b;
+export { add, multiply };
+
+// main.js
+import { add, multiply } from './utils.js';
+console.log(add(2, 3)); // 5
+```
+
+In your HTML, link the module with:
+
+`<script type="module" src="./src/main.js"><\/script>`
+
+---
+
+## 6. Fetch API and Promises
+
+`fetch()` returns a **Promise** — a black box representing a future value. You cannot extract data from it directly. You schedule code to run when it resolves using `.then()`.
+
+```javascript
+// Basic fetch pattern
+fetch('https://api.example.com/data')
+  .then(response => response.json())  // .json() also returns a promise!
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => console.error(error));
+
+// ⚠️ Execution order matters!
+console.log("A");
+fetch('https://api.example.com/data')
+  .then(response => response.json())
+  .then(data => console.log("B"));
+console.log("C");
+// Output order: A, C, B  (fetch is asynchronous)
+```
+
+**Key concepts:**
+- `response.json()` returns a promise — that's why you need a second `.then()`
+- `.json()` is just `.text()` + `JSON.parse()` combined
+- JSON is a **string format**. A JavaScript object is a JavaScript object. They are not the same thing.
+- GET is the default HTTP method. It is **idempotent** (calling it many times doesn't change the server).
+
+---
+
+## 7. `async`/`await`
+
+Syntactic sugar on top of promises. Looks synchronous, but it is not.
+
+```javascript
+const loadData = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};
+
+// ⚠️ What happens if you forget `await`?
+const broken = async (url) => {
+  const response = fetch(url);    // response is a Promise, not a Response!
+  const data = response.json();   // ERROR — Promise has no .json() method
+};
+```
+
+---
+
+## 8. Object Destructuring
+
+Destructuring lets you unpack object properties into variables. Used heavily for function parameters to create readable, self-documenting code.
+
+```javascript
+// Basic destructuring
+const wizard = { name: "Gandalf", power: "Magic", level: 20 };
+const { name, power } = wizard;
+
+// Array destructuring
+const scores = [100, 200, 300];
+const [first, second] = scores;
+
+// In function parameters — named parameters pattern
+const drawRect = (ctx, { x, y, w, h, color = 'black' }) => {
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+  ctx.restore();
+};
+
+// Called with an object — self-documenting
+drawRect(ctx, { x: 10, y: 20, w: 100, h: 50, color: 'green' });
+
+// Renaming during destructuring
+const { w: width, h: height } = { w: 100, h: 50 };
+console.log(width);  // 100
+```
+
+---
+
+## 9. Canvas Basics
+
+Canvas is a **raster** (pixel-based) drawing system. It has no scene graph or display list — once you draw, there's no record in the DOM inspector. You get a drawing context from the canvas element.
+
+```javascript
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+// Convenience methods (one step)
+ctx.fillStyle = 'green';
+ctx.fillRect(200, 50, 100, 100);  // x, y, width, height
+
+// Path-based drawing (two steps: define path, then fill/stroke)
+ctx.beginPath();
+ctx.rect(200, 50, 100, 100);
+ctx.closePath();
+ctx.fillStyle = 'green';
+ctx.fill();
+
+// Drawing a circle (arc uses RADIANS, not degrees)
+ctx.beginPath();
+ctx.arc(200, 150, 50, 0, Math.PI * 2); // centerX, centerY, radius, startAngle, endAngle
+ctx.fillStyle = 'red';
+ctx.fill();
+
+// Drawing a line
+ctx.beginPath();
+ctx.moveTo(100, 100);
+ctx.lineTo(300, 300);
+ctx.lineWidth = 5;
+ctx.strokeStyle = 'purple';
+ctx.stroke();
+```
+
+**Key facts:**
+- `(0, 0)` is the **top-left** corner
+- Rectangle anchor point: **top-left**. Circle anchor point: **center**.
+- `arc()` angles are in **radians**: full circle = `Math.PI * 2`, half circle = `Math.PI`
+- `ctx.arc()` does NOT draw — you must call `fill()` or `stroke()` after
+- `closePath()` draws a line back to the start of the subpath — it does NOT "end" the path
+- Default values: `strokeStyle` = black, `fillStyle` = black, `lineWidth` = 1
+
+---
+
+## 10. `ctx.save()` and `ctx.restore()`
+
+Context properties (`fillStyle`, `strokeStyle`, `lineWidth`, transforms) are **global** — they persist and leak across function calls. Use `save()`/`restore()` in every drawing helper.
+
+```javascript
+// ❌ Without save/restore — styles leak
+const drawRedSquare = (ctx) => {
+  ctx.fillStyle = 'red';
+  ctx.fillRect(10, 10, 50, 50);
+};
+const drawDefaultSquare = (ctx) => {
+  ctx.fillRect(100, 10, 50, 50); // Oops — still red from previous call!
+};
+
+// ✅ With save/restore — styles contained
+const drawRedSquare = (ctx) => {
+  ctx.save();
+  ctx.fillStyle = 'red';
+  ctx.fillRect(10, 10, 50, 50);
+  ctx.restore();
+};
+const drawDefaultSquare = (ctx) => {
+  ctx.fillRect(100, 10, 50, 50); // Black, as expected
+};
+```
+
+---
+
+## 11. Wrapping Canvas in Reusable Functions
+
+Don't use raw Canvas API calls directly — wrap them in parameterized, readable helper functions.
+
+```javascript
+const drawCircle = (ctx, { x, y, radius, color = 'black' }) => {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.restore();
+};
+
+// drawSquare reuses drawRect (composition)
+const drawRect = (ctx, { x, y, w, h, color = 'black' }) => {
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, w, h);
+  ctx.restore();
+};
+const drawSquare = (ctx, { x, y, size, color }) => {
+  drawRect(ctx, { x, y, w: size, h: size, color });
+};
+
+// Usage — readable and self-documenting
+drawCircle(ctx, { x: 200, y: 150, radius: 50, color: 'blue' });
+drawSquare(ctx, { x: 100, y: 100, size: 60, color: 'red' });
+```
+
+---
+
+## 12. `requestAnimationFrame` and Animation Loops
+
+The correct way to animate on Canvas. Syncs to the display's refresh rate. **Never** use `while(true)` (freezes the tab) or direct recursion (stack overflow).
+
+```javascript
+const draw = (timestamp) => {
+  // 1. Clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 2. Update state and draw
+  drawScene();
+
+  // 3. Request next frame
+  requestAnimationFrame(draw);
+};
+
+// Kick off the loop
+requestAnimationFrame(draw);
+```
+
+**Why not `setInterval`?**
+- Timing is a suggestion, not a guarantee
+- Doesn't sync with display refresh (causes jutter/tearing)
+- Keeps running when the tab is inactive (wastes resources)
+- `requestAnimationFrame` pauses automatically on inactive tabs
+
+---
+
+## 13. Delta Time (Frame-Rate Independence)
+
+Different monitors run at different refresh rates. Without delta time, animations run faster on fast monitors.
+
+```javascript
+let lastTimestamp = 0;
+let angle = 0;
+const ROTATION_SPEED = 90; // degrees per second
+
+const draw = (timestamp) => {
+  const deltaTime = (timestamp - lastTimestamp) / 1000; // convert ms to seconds
+  lastTimestamp = timestamp;
+
+  // ❌ Bad: angle += 1;           (frame-dependent)
+  // ✅ Good:
+  angle += ROTATION_SPEED * deltaTime; // same speed on every machine
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // ... draw using angle ...
+
+  requestAnimationFrame(draw);
+};
+
+requestAnimationFrame(draw);
+```
+
+---
+
+## 14. Canvas Transforms: Translate and Rotate
+
+`ctx.rotate()` always rotates around the **origin (0, 0)**. To rotate around a shape's center, you translate first.
+
+```javascript
+const drawRotatedRect = (ctx, { x, y, w, h, angle, color }) => {
+  ctx.save();
+
+  // 1. Move origin to the shape's center
+  ctx.translate(x + w / 2, y + h / 2);
+
+  // 2. Rotate (in radians)
+  ctx.rotate(angle);
+
+  // 3. Draw centered on the new origin
+  ctx.fillStyle = color;
+  ctx.fillRect(-w / 2, -h / 2, w, h);
+
+  ctx.restore(); // undo translate + rotate
+};
+```
+
+---
+
+## 15. DOM Manipulation and Event Listeners
+
+```javascript
+// Select and modify
+document.querySelector('#title').textContent = 'New Title';
+document.querySelector('.warning').style.color = 'red';
+
+// Event listeners — pass a function REFERENCE, don't call it
+const handleClick = () => console.log('clicked!');
+
+document.querySelector('button').addEventListener('click', handleClick);
+// ✅ handleClick    — passes the function
+// ❌ handleClick()  — calls it immediately, passes undefined
+```
+
+---
+
+## 16. Scoping: `var` vs `let`/`const`
+
+`var` is function-scoped and hoisted. `let`/`const` are block-scoped.
+
+```javascript
+function example() {
+  console.log(x); // undefined (var is hoisted)
+  // console.log(y); // ❌ ReferenceError (let is not hoisted)
+
+  for (var x = 0; x < 3; x++) {
+    var score = 100;
+  }
+  console.log(x);     // 3 (var leaks out of the for block)
+  console.log(score);  // 100
+
+  for (let i = 0; i < 3; i++) {
+    let points = 50;
+  }
+  // console.log(i);      // ❌ ReferenceError
+  // console.log(points);  // ❌ ReferenceError
+}
+```
+
+---
+
+## 17. Falsy and Truthy Values
+
+**Falsy:** `false`, `0`, `""`, `null`, `undefined`, `NaN`
+
+Everything else is **truthy**, including `[]`, `{}`, and `"false"`.
+
+```javascript
+if ("") console.log("truthy");   // doesn't log (empty string is falsy)
+if ("false") console.log("truthy"); // DOES log ("false" is a non-empty string)
+if ([]) console.log("truthy");   // DOES log (empty array is truthy)
+```
+
+---
+
+## Quick Reference: Things That Trip People Up
+
+| Trap | What Actually Happens |
+|---|---|
+| `console.log(doubleIt())` with no argument | `NaN` (undefined * 2) |
+| `"1" == 1` | `true` (loose equality coerces types) |
+| `"1" === 1` | `false` (strict equality checks type) |
+| `b.toUpperCase()` without reassigning | `b` is unchanged (strings are immutable) |
+| `const arr = [1,2]; arr.push(3)` | Works (const prevents reassignment, not mutation) |
+| `const arr = [1,2]; arr = [3]` | Error (reassignment) |
+| `window.onload = init()` | Calls init immediately, assigns `undefined` to onload |
+| `window.onload = init` | Correct — assigns the function reference |
+| `closePath()` | Draws a line back to start — does NOT "end" the path |
+| `ctx.arc(...)` with no `fill()`/`stroke()` | Nothing appears on canvas |
+
+        </script>
+    </zero-md>
+</body>
+</html>
