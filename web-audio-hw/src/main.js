@@ -14,14 +14,14 @@ const DEFAULTS = Object.freeze({
 	sound1  :  "media/New Adventure Theme.mp3"
 });
 
-function init(){
+const init = () =>{
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 	setupUI(canvasElement);
 }
 
-function setupUI(canvasElement){
+const setupUI = (canvasElement) => {
   // A - hookup fullscreen button
   const fsButton = document.querySelector("#fsButton");
 	
