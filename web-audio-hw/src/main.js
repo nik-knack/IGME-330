@@ -33,6 +33,7 @@ const setupUI = (canvasElement) => {
     utils.goFullscreen(canvasElement);
   };
 	
+  // B - add .onclick event to button
   playButton.onclick = e => {
     console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
 
@@ -49,6 +50,32 @@ const setupUI = (canvasElement) => {
     }else{
         audio.pauseCurrentSound();
         e.target.dataset.playing = "no"; // our CSS will set the text to "Play"
+    }
+  };
+
+  // C - hookup volume slider & label
+  let volumeSlider = document.querySelector("#volumeSlider");
+  let volumeLabel = document.querySelector("#volumeLabel");
+
+  // add .oninput event to slider
+  volumeSlider.oninput = e => {
+    // set the gain
+    audio.setVolume(e.target.value);
+    // update value of label to math value of slider
+    volumeLabel.innerHTML = Math.round((e.target.value/2 * 100));
+  };
+
+  // set value of label to match initial value of slider
+  volumeSlider.dispatchEvent(new Event("input"));
+
+  // D - hookup track <select>
+  let trackSelect = document.querySelector("#trackSelect");
+  // add .onchange event to <select>
+  trackSelect.onchange = e => {
+    audio.loadSoundFile(e.target.value);
+    // pause the current track if it is playing
+    if (playButton.dataset.playing == "yes"){
+        playButton.dispatchEvent(new MouseEvent("click"));
     }
   };
 } // end setupUI
