@@ -31,7 +31,7 @@ const setupWebaudio = (filePath) =>{
     sourceNode = audioCtx.createMediaElementSource(element);
 
     // 5 - create an analyser node
-    analyserNode = audiotCtx.createAnalyser();    // note the UK spelling of "Analyser"
+    analyserNode = audioCtx.createAnalyser();    // note the UK spelling of "Analyser"
 
     /*
     // 6

@@ -8,11 +8,14 @@
 // If you want to re-write these as ES6 arrow functions, to be consistent with the other files, go ahead!
 
 import * as utils from './utils.js';
+import * as audio from './audio.js';
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
 	sound1  :  "media/New Adventure Theme.mp3"
 });
+
+audio.setupWebaudio(DEFAULTS.sound1);
 
 const init = () =>{
 	console.log("init called");
@@ -20,7 +23,6 @@ const init = () =>{
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 	setupUI(canvasElement);
 }
-
 const setupUI = (canvasElement) => {
   // A - hookup fullscreen button
   const fsButton = document.querySelector("#fsButton");
@@ -31,6 +33,24 @@ const setupUI = (canvasElement) => {
     utils.goFullscreen(canvasElement);
   };
 	
+  playButton.onclick = e => {
+    console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
+
+    // check if context is in suspended state (autoplay policy)
+    if (audio.audioCtx.state == "suspended") {
+        audio.audioCtx.resume();
+    }
+    console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
+    if(e.target.dataset.playing == "no"){
+        // if track is currently paused, play it
+        audio.playCurrentSound();
+        e.target.dataset.playing = "yes"; // our CSS will set the text to "Pause"
+        // if track IS playing, pause it
+    }else{
+        audio.pauseCurrentSound();
+        e.target.dataset.playing = "no"; // our CSS will set the text to "Play"
+    }
+  };
 } // end setupUI
 
 export {init};
