@@ -6,10 +6,12 @@ const server = createServer((req, res) => {
     const ip = req.socket.remoteAddress;
     console.log(`${req.method} ${req.url} - from ${ip}`);
 
+    ips.add(ip);
+
     res.writeHead(200, {
         "Content-Type": "text/plain"
     });
-    res.end(`You hit: ${req.url}\n`);
+    res.end([...ips].join("\n"));
 });
 
 server.listen(PORT, "0.0.0.0", () => {
