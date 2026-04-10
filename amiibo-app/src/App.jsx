@@ -10,7 +10,7 @@ const loadXHR = (url, callback) => {
   let xhr = new XMLHttpRequest;
   
   // set up what happens when the request finishes
-  xhr.onload = (e) => {
+  xhr.onload = () => {
     // only call callback if request was successful
     if (xhr.status === 200) {
       callback(xhr);
@@ -44,7 +44,7 @@ const parseAmiiboResult = (xhr) => {
   try {
     json = JSON.parse(text);
   } catch (err) {
-    //console.error("Error parsing JSON:", err);
+      console.error("Error parsing JSON:", err);
     return;
   }
 
@@ -70,7 +70,7 @@ const App = () => {
       <button>Search</button>
       <label>
         Name: 
-        <input />
+        <input/>
       </label>
     </main>
     <hr />
